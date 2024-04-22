@@ -1,0 +1,105 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+  - repo: https://github.com/psf/black
+    rev: 21.12b0
+    hooks:
+      - id: black
+        name: Python Black Formatter
+        language_version: python3
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.9.3
+    hooks:
+      - id: isort
+        name: Python Isort Formatter
+        additional_dependencies: [isort==5.9.3]
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        name: Python Flake8 Linter
+        additional_dependencies: [flake8-docstrings]
+  - repo: https://github.com/hhatto/autopep8
+    rev: v2.0.4
+    hooks:
+      - id: autopep8
+        name: Python Autopep8 Formatter
+  - repo: local
+    hooks:
+      - id: pylint
+        name: Python Pylint Linter
+        entry: ./venv/bin/pylint
+        language: system
+        types: [python]
+        args: [--ignore-patterns=venv]
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.0
+    hooks:
+      - id: bandit
+        name: Python Bandit Security Checker
+        args: ["--exclude", ".git,.venv"]
+  # For formatting SQL files
+  - repo: local
+    hooks:
+      - id: sql-formatter
+        name: SQL Formatter
+        language: system
+        entry: sql-formatter
+        files: .*sql
+  - repo: https://github.com/psf/black
+    rev: 24.2.0
+    hooks:
+      - id: black
+        name: SQL Black Formatter
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        name: MyPy Static Type Checker
+        additional_dependencies:
+          [
+            types-toml,
+            types-pkg_resources,
+            types-chardet,
+            types-appdirs,
+            types-colorama,
+            types-pyyaml,
+            types-regex,
+            types-tqdm,
+          ]
+        files: ^infrastructure/airflow/.*sql
+  - repo: https://github.com/pycqa/doc8
+    rev: v1.1.1
+    hooks:
+      - id: doc8
+        name: Doc8 Documentation Checker
+        args: [--file-encoding, utf8]
+        files: docs/.*\.rst$
+  # - repo: https://github.com/adrienverge/yamllint.git
+  #   rev: v1.35.1
+  #   hooks:
+  #     - id: yamllint
+  #       name: YAML Linter
+  #       args: [-c=.*y*ml]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.3.2"
+    hooks:
+      - id: ruff
+        name: Ruff Linter
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
+    hooks:
+      - id: codespell
+        name: Codespell Spell Checker
+        additional_dependencies: [tomli]
+  # For Docker apps testing
+  - repo: https://github.com/iamthefij/docker-pre-commit
+    rev: master
+    hooks:
+      - id: docker-compose-check
+        name: Docker Compose Checker

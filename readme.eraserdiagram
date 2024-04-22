@@ -1,0 +1,6 @@
+VPC Subnet {
+  Main Server {
+    Server [icon: aws-ec2]
+    Data [icon: aws-rds]
+  }
+}
